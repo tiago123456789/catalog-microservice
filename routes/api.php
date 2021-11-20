@@ -27,5 +27,11 @@ Route::group([ "namespace" => "Api" ], function() {
     Route::put('/categories/{id}', "CategoryController@update");
     Route::delete('/categories/{id}', "CategoryController@destroy");
 
+    Route::get("/genres", "GenreController@findAll");
+    Route::post("/genres", "GenreController@create");
+    Route::get("/genres/{id}", "GenreController@findById");
+    Route::delete("/genres/{id}", "GenreController@delete");
+    Route::put('/genres/{id}', "GenreController@update");
+
 });
 

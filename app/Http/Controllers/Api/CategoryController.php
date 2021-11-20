@@ -16,11 +16,6 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        $validated = $request->validated();
-        if ($validated) {
-            return response()->json($validated, 400);
-        }
-
         return Category::create($request->all());
     }
 
@@ -31,11 +26,6 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, $id)
     {
-        $validated = $request->validated();
-        if (!$validated) {
-            return response()->json($validated, 400);
-        }
-
         $category = Category::where("id", "=", $id)->first();
         if (!$category) {
             return response()->json([
