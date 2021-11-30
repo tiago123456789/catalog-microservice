@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Model\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -34,10 +35,36 @@ class CategoryController extends TestCase
         $response->assertStatus(422);
     }
 
+    public function testCreate()
+    {
+        $response = $this->json("POST", '/api/categories', [
+            "name" => "test"
+        ]);
+
+        $id = $response->json("id");
+        $category = Category::find($id);
+
+        $response->assertStatus(201);
+        $response->assertJson($category);
+    }
+
     public function testValidateUpdate()
     {
         $response = $this->json("PUT", '/api/categories', []);
-
         $response->assertStatus(422);
+    }
+
+    public function testUpdate() {
+        $category = Category::create([
+            "name" => "test"
+        ]);
+
+        $response = $this->json("PUT", '/api/categories/' . $category->id, [
+            "name" => "test updated"
+        ]);
+        
+        $name = $response->json("name");
+        $response->assertStatus(204);
+        $this->assertEquals("test updated", $name);
     }
 }
