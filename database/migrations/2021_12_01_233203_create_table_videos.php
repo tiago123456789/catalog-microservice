@@ -17,7 +17,7 @@ class CreateTableVideos extends Migration
             $table->uuid('id')->primary();
             $table->string("title");
             $table->text("description");
-            $table->smallInterger("year_launched");
+            $table->smallInteger("year_launched");
             $table->boolean("opened");
             $table->string("rating", 3);
             $table->smallInteger("duration");

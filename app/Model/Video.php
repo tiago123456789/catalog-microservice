@@ -12,6 +12,14 @@ class Video extends Model
 
     const RATING = ["L", "10", "12", "14", "16", "18"];
 
-    protected $fillable = ['name', 'description', 'is_active'];   
+    protected $fillable = [
+        'duration', 'title', 'description',
+        'year_launched', "opened", "rating"
+    ];  
 
+    protected $hidden = ["deleted_at", "created_at", "updated_at"];
+    
+    protected $casts = [
+        "id" => "string"
+    ];
 }
