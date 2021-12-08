@@ -36,6 +36,8 @@ Route::group([ "namespace" => "Api" ], function() {
     Route::get("/videos", "VideoController@findAll");
     Route::get("/videos/{id}", "VideoController@findById");
     Route::delete("/videos/{id}", "VideoController@destroy");
+    Route::put("/videos/{id}", "VideoController@update");
+    Route::post("/videos", "VideoController@create");
 
 });
 

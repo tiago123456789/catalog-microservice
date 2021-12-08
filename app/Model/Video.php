@@ -12,6 +12,8 @@ class Video extends Model
 
     const RATING = ["L", "10", "12", "14", "16", "18"];
 
+    protected $table = "videos";
+
     protected $fillable = [
         'duration', 'title', 'description',
         'year_launched', "opened", "rating"
