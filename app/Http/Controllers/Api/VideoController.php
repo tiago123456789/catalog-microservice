@@ -33,6 +33,10 @@ class VideoController extends Controller
 
     public function create(VideoRequest $request) {
         $video = Video::create($request->all());
+        
+        dd($video->id);
+        $video->categories()->sync($request->get("categories_id"));
+        $video->genres()->sync($request->get("genres_id"));
         return response()->json($video, 201);
     }
 

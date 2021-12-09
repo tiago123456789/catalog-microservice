@@ -15,6 +15,7 @@ class Video extends Model
     protected $table = "videos";
 
     protected $fillable = [
+        "id",
         'duration', 'title', 'description',
         'year_launched', "opened", "rating"
     ];  
@@ -24,4 +25,12 @@ class Video extends Model
     protected $casts = [
         "id" => "string"
     ];
+
+    public function categories() {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function genres() {
+        return $this->belongsToMany(Genre::class);
+    }
 }

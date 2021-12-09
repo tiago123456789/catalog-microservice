@@ -29,7 +29,9 @@ class VideoRequest extends FormRequest
             "year_launched" => "required",
             "opened" => "required",
             "rating" => "required|max:3",
-            "duration" => "required"    
+            "duration" => "required",
+            "categories_id" => "required|array|exists:categories,id",    
+            "genres_id" => "required|array|exists:genres,id"    
         ];
     }
 }
