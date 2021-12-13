@@ -10,6 +10,8 @@ class Video extends Model
 {
     use SoftDeletes, Uuid;
 
+    public $incrementing = false;
+
     const RATING = ["L", "10", "12", "14", "16", "18"];
 
     protected $table = "videos";

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoRequest;
 use App\Model\Video;
+use DB;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -32,12 +33,13 @@ class VideoController extends Controller
     }
 
     public function create(VideoRequest $request) {
-        $video = Video::create($request->all());
-        
-        dd($video->id);
-        $video->categories()->sync($request->get("categories_id"));
-        $video->genres()->sync($request->get("genres_id"));
-        return response()->json($video, 201);
+        DB::transaction(function () use ($request) {
+            $video = Video::create($request->all());
+            $video->categories()->sync($request->get("categories_id"));
+            $video->genres()->sync($request->get("genres_id"));
+        });
+       
+        return response()->json(null, 201);
     }
 
     public function update($id, VideoRequest $request) {
