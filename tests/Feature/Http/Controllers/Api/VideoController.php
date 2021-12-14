@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Model\Category;
+use App\Model\Genre;
 use App\Model\Video;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,4 +73,48 @@ class VideoController extends TestCase
         $response = $this->json("POST", "/api/videos", []);
         $response->assertStatus(422);
     }
+
+    public function testCreateSuccess()
+    {
+        $category = factory(Category::class, 1)->create();
+        $genre = factory(Genre::class, 1)->create();
+        $response = $this->json("POST", "/api/videos", [
+            "title" => "The ranch 222",
+            "description" => "The ranch is one serie",
+            "year_launched" => 2018,
+            "opened" => false,
+            "rating" => "16",
+            "duration" => 50,
+            "categories_id" => [
+                $category[0]->id
+            ],
+            "genres_id" => [
+                $genre[0]->id
+            ]
+        ]);
+        $response->assertStatus(201);
+    }
+
+    public function testUpdateFailInvalidData()
+    {
+
+        $video = Video::create();
+        $response = $this->json("PUT", "/api/videos" . $video[0]->id, []);
+        $response->assertStatus(422);
+    }
+
+    // public function testCreateSuccess()
+    // {
+    //     $response = $this->json("POST", "/api/videos", [
+    //         "title" => "The ranch 222",
+    //         "description" => "The ranch is one serie",
+    //         "year_launched" => 2018,
+    //         "opened" => false,
+    //         "rating" => "16",
+    //         "duration" => 50,
+    //         "categories_id" => ["0295a02d-1084-4368-b485-9ca8b5729a80"],
+    //         "genres_id" => [5]
+    //     ]);
+    //     $response->assertStatus(204);
+    // }
 }

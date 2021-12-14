@@ -48,7 +48,13 @@ class VideoController extends Controller
             return response()->json(null, 404);
         }
 
-        Video::where("id", "=", $id)->update($request->all());
+        DB::transaction(function () use ($request, $id, $video) {
+            Video::where("id", "=", $id)->update(
+                $request->except(["categories_id", "genres_id"])    
+            );
+            $video->categories()->sync($request->get("categories_id"));
+            $video->genres()->sync($request->get("genres_id"));
+        });
         return response()->json(null, 204);
     }
 }
